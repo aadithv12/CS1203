@@ -1,0 +1,38 @@
+ #include <stdio.h>
+#include <stdlib.h>
+
+struct ll{
+    int val;
+    struct ll* next;
+};
+
+int main(){
+  struct ll* head = (struct ll*)malloc(sizeof(struct ll));;
+  struct ll* second = (struct ll*)malloc(sizeof(struct ll));
+  struct ll* third = (struct ll*)malloc(sizeof(struct ll));
+
+
+  head -> val = 1;
+  head -> next = second;
+  
+  second -> val = 2;
+  second -> next = third;
+
+  third -> val = 3;
+  third -> next = NULL;
+  
+  
+struct ll *n; 
+  n = head;
+  while(n!=NULL)
+  {
+  printf("%d\n",n->val);
+   n = n -> next;
+  }
+  
+
+};
+
+
+
+
