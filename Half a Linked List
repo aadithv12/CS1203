@@ -1,0 +1,63 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct ll{
+    int val;
+    struct ll* next;
+   
+};
+
+int main()
+{
+
+
+int n;
+printf("enter size of linked list\n");
+scanf("%d",&n);
+
+
+struct ll* head = (struct ll*)malloc(sizeof(struct ll));
+printf("enter head value\n");
+int rand;
+scanf("%d",&rand);
+head->val = rand;
+head->next= NULL;
+struct ll* s;
+s = head;
+
+while(n!=1)
+{
+  
+  int data;
+  printf("enter data linked list\n");
+  scanf("%d",&data);
+ 
+  struct ll* f;
+  f = (struct ll*)malloc(sizeof(struct ll));
+
+  f -> val = data;
+  f -> next = NULL;
+
+  s ->next= f;
+  s = f;
+  n = n - 1;
+}
+
+  struct ll *hare;
+  struct ll *tortoise;  
+  hare = head;
+  tortoise = head;
+  while(hare!=NULL)
+  {
+  printf("%d\n",tortoise->val);
+   hare = hare -> next;
+   hare = hare -> next;
+   tortoise = tortoise->next;
+  
+
+}
+}
+
+
