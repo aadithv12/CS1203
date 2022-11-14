@@ -11,41 +11,44 @@ struct bst{
 
 };
 
-// creates a new mid note
-bst newnodes(int new)
-{
-    struct bst* head = (struct bst*)malloc(sizeof(struct bst));
-    head->data = new;
-    head->left = NULL;
-    head->right = NULL;
-}
 
 
-//sorting algos
-bst* sorttree(int array[], int st, int end)
+
+//
+struct bst* sorttree(int array[], int st, int end)
 {
    if(st > end)
    {
     return NULL;
    }
    int mid = (st+end)/2;
-   struct bst* head = newnodes(array[mid])
+   struct bst* head = (struct bst*)malloc(sizeof(struct bst));
+    head->data = mid;
+    head->left = NULL;
+    head->right = NULL;
 
-   head->left = sorttree(array[],st, mid-1)
-   head->right = sorttree(array[],mid+1, end)
+   head->left = sorttree(array,st, mid-1);
+   head->right = sorttree(array,mid+1, end);
 
    return head;
 
 }
 
-void preOrder(bst* node)
+void infix(struct bst* node)
 {
-    if (node == NULL)
-        return;
-    cout << node->data << " ";
-    preOrder(node->left);
-    preOrder(node->right);
+  if(node == NULL)
+  {
+    return;
+  }
+
+  infix(node->left);
+  printf("%d",node->data);
+  infix(node->right);
+
 }
+
+
+
 
 
 int main()
@@ -53,11 +56,9 @@ int main()
 
 int a[6]= {1,3,2,4,7,6};
 int n = sizeof(a)/sizeof(a[0]);
-sorttree(a,0,n-1)
-cout << "PreOrder Traversal of constructed BST \n";
-preOrder(head);
- 
+struct bst* p = (struct bst*)malloc(sizeof(struct bst));
+p = sorttree(a,0,n-1);
+infix(p);
 return 0;
+
 }
-
-
