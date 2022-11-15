@@ -23,7 +23,7 @@ struct bst* sorttree(int array[], int st, int end)
    }
    int mid = (st+end)/2;
    struct bst* head = (struct bst*)malloc(sizeof(struct bst));
-    head->data = mid;
+    head->data = array[mid];
     head->left = NULL;
     head->right = NULL;
 
