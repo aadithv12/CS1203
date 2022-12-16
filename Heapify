@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void switc(int *a,int *b)
+{
+    int x = *a;
+    *a = *b;
+    *b = x;
+  
+}
+
+//heapify - making a max heap
+
+void heapify( int a[], int x, int y)
+{
+    int large = y;
+
+    int left =  2 * y + 1;
+    int right =  2 * y + 2;
+
+    if(left< x && a[large]<a[left])
+    {
+      large = left;
+    }
+
+    if(right< x && a[large]<a[right])
+    {
+      large = right;
+    }
+
+    if(large != y)
+    {
+        switc(a[y],a[large])
+    }
+
+    heapify(a,x,large)
+
+}
