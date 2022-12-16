@@ -36,3 +36,18 @@ void heapify( int a[], int x, int y)
     heapify(a,x,large)
 
 }
+
+
+int main()
+{
+int a[]= { 88, 99, 4, 42, 11, 35, 57, 3, 49, 69, 73, 20};
+int n = sizeof(a)/sizeof(a[0]);
+heapify(a,n,0);
+ int p=0; 
+    while(p!=n)
+    {
+        printf("%d\n",a[p]);
+        p++;
+    }
+ return 0;
+}
