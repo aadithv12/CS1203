@@ -1,0 +1,19 @@
+int searchbst(struct bst* head, int a)
+{
+  if((head->data)==a ||(head->data)==NULL)
+  {
+    
+    return head->data;
+  }
+
+  if((head->license)>a)
+  {
+    return searchbst(head->left,a);
+  }
+
+  if((head->license)<a)
+  {
+    return searchbst(head->right,a);
+  }
+  
+}
