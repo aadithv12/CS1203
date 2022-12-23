@@ -1,1 +1,52 @@
+//find the smallest node
+struct bst* smallestnode(struct bst* f)
+{
+   
+ struct bst* head = f;
+   
+    while (head->left != NULL)
+        head = head->left;
+ 
+    return head;
+}
+
+
+//deletes a node in the BST
+struct bst* delete_node(struct bst* head, int li)
+{
+  if(head->license>li)
+  {
+     head->left =  delete_node(head->left,li);
+  }
+  else if(head->license<li)
+  {
+    head->right = delete_node(head->right,li);
+  }
+  
+  else
+  {
+     if(head->left==NULL)
+     {
+      struct bst* holder = head->right;
+      free(head);
+      return holder;
+     }
+     if(head->right==NULL)
+     {
+      struct bst* holder = head->left;
+      free(head);
+      return holder;
+     }
+    
+     struct bst* holder = smallestnode(head->right);
+     head->license = holder->license;
+     head->parking_no = holder->parking_no;
+
+     head->right = delete_node(head->right,holder->license);
+  }
+
+  return head;
+  
+}
+
 
