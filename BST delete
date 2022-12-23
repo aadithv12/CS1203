@@ -116,6 +116,385 @@ infix(p);
 return 0;
 
 }
+------------------------------
+//alternate example
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+//linked list
+struct ll
+{
+    int license;
+    int parking_no;
+    struct ll* next;
+    
+};
+
+
+//binary search tree
+struct bst
+{
+    int license;
+    int parking_no;
+    struct bst* left;
+    struct bst* right;
+    
+};
+
+
+struct bst* newNode(int license, int parking_no);
+int countNodes(struct ll *head);
+struct bst* sortedListToBSThelp(struct ll **head_ref, int n);
 
 
 
+struct bst* sortedListToBST(struct ll *head)
+{
+
+	int n = countNodes(head);
+	/* Construct BST */
+	return sortedListToBSThelp(&head, n);
+}
+
+struct bst* sortedListToBSThelp(struct ll **head_ref, int n)
+{
+
+	if (n <= 0)
+		return NULL;
+
+
+	struct bst *left = sortedListToBSThelp(head_ref, n/2);
+
+
+	struct bst *root = newNode((*head_ref)->license,(*head_ref)->parking_no);
+	root->left = left;
+
+	
+	*head_ref = (*head_ref)->next;
+
+	root->right = sortedListToBSThelp(head_ref, n-n/2-1);
+
+	return root;
+}
+
+
+
+// counted nodes in a linked list 
+int countNodes(struct ll* head)
+{
+    int count = 0;
+    struct ll* temp = head;
+    while(temp!=NULL)
+    {
+        temp = temp->next;
+        count++;
+    }
+    return count;
+}
+
+
+//prints the entries in an array
+void Display(int* arr,int size)
+{
+    
+    for (int i = 0; i < size; i++)
+       printf("%d\n ", arr[i]);
+}
+
+
+
+//swaps two values in a linked list
+void swapout( struct ll* x,  struct ll*y )
+{ 
+    int holder = x->license;
+    x->license = y->license;
+    y->license = holder;
+   
+    int holder2 = x->parking_no;
+    x->parking_no = y->parking_no;
+    y->parking_no = holder2;
+
+}
+
+//sorts a linked list using selection sort
+ struct ll* selectionLinked( struct ll* a)
+{
+    struct ll* i = a;
+    struct ll* temp;
+    while(i!=NULL)
+    { 
+      struct ll* j = i->next;
+      temp = i;
+      while(j!=NULL)
+      {
+        if(j->license<temp->license)
+        {
+          swapout(temp,j);
+        }
+        j=j->next;
+      }
+      i=i->next;
+    }
+
+    return a;
+}
+
+
+struct bst* newNode(int license, int parking_no)
+{
+	struct bst* node = (struct bst*)malloc(sizeof(struct bst));
+	node->license = license;
+  node->parking_no = parking_no;
+	node->left = NULL;
+	node->right = NULL;
+
+	return node;
+}
+
+
+
+//prints a bst
+void infix(struct bst* node)
+{
+  if(node == NULL)
+  {
+    return;
+  }
+
+  infix(node->left);
+  printf("%d\n",node->license);
+  infix(node->right);
+
+}
+
+void preOrder(struct bst* node)
+{
+	if (node == NULL)
+		return;
+	printf("%d\n", node->license);
+	preOrder(node->left);
+	preOrder(node->right);
+}
+
+// sets up a car park with a capacity of 100, each parking spot is labled sequentially from 1-200 each node in the linked list has a var for the parking spot number(1-200) and a var for the license plate(random 4 digit numbers) of the car (takes value 0 if the spot is empty)
+// randomly generates license plates in 50 of the slots  
+struct ll* linkedlistsetup()
+{  
+   int lower = 0;
+   int upper = 1;
+ 
+   int lower_li = 1000;
+   int upper_li = 10000;
+   struct ll* head = (struct ll*)malloc(sizeof(struct ll));
+   struct ll* s;
+   head->parking_no = 1;
+   head->next= NULL;  
+   head->license = (rand() % (upper_li - lower_li + 1)) + lower_li;
+   s = head;
+   int i;
+   for(i=2;i<=20;i++)
+   {
+        struct ll* f;
+        f = (struct ll*)malloc(sizeof(struct ll));
+        int a;
+        a = (rand() % (upper - lower + 1)) + lower;
+        if(a == 0)
+        {
+        f->parking_no = i;
+        f->next= NULL;
+        f->license = (rand() % (upper_li - lower_li + 1)) + lower_li;
+        s ->next= f;
+        s = f;
+        }
+        
+        if(a == 1)
+        {
+        f->parking_no = i;
+        f->next= NULL;
+        f->license = 0;
+
+    
+
+        s ->next= f;
+        s = f;
+        }
+    }
+
+    return head;
+
+
+
+};
+
+
+
+struct ll* taken_spots(struct ll* head)
+{
+  
+  struct ll* y = (struct ll*)malloc(sizeof(struct ll));
+  struct ll* x = (struct ll*)malloc(sizeof(struct ll));
+  x = head ;
+  
+  while((x->license)==0)
+  {
+    x = x->next; 
+  }
+  y->parking_no = x->parking_no;
+  y->license = x->license;
+  y->next = NULL;
+  
+  x = x->next;
+  struct ll* q = (struct ll*)malloc(sizeof(struct ll));
+  q = y;
+  while(x!=NULL)
+  {
+    struct ll* f = (struct ll*)malloc(sizeof(struct ll));
+    if((x->license)>2)
+    {
+      f->parking_no = x->parking_no;
+      f->license = x->license;
+      f ->next = NULL;
+      
+      q->next = f;
+      q = f;
+
+      
+    }
+       x= x->next;
+    
+
+  }
+  return y;
+}
+
+//insert a new node 
+struct bst* insert(struct bst* head, int license, int parking)
+{
+  if(head == NULL)
+  {
+    return newNode(license, parking);
+  }
+  if(head->license>license)
+  {
+     head->left =  insert(head->left,license,parking);
+  }
+   if(head->license<license)
+  {
+    head->right = insert(head->right,license, parking);
+  }
+  return head;
+}
+
+//find the smallest node
+struct bst* smallestnode(struct bst* f)
+{
+   
+ struct bst* head = f;
+   
+    while (head->left != NULL)
+        head = head->left;
+ 
+    return head;
+}
+
+
+//deletes a node in the BST
+struct bst* delete_node(struct bst* head, int li)
+{
+  if(head->license>li)
+  {
+     head->left =  delete_node(head->left,li);
+  }
+  else if(head->license<li)
+  {
+    head->right = delete_node(head->right,li);
+  }
+  
+  else
+  {
+     if(head->left==NULL)
+     {
+      struct bst* holder = head->right;
+      free(head);
+      return holder;
+     }
+     if(head->right==NULL)
+     {
+      struct bst* holder = head->left;
+      free(head);
+      return holder;
+     }
+    
+     struct bst* holder = smallestnode(head->right);
+     head->license = holder->license;
+     head->parking_no = holder->parking_no;
+
+     head->right = delete_node(head->right,holder->license);
+  }
+
+  return head;
+  
+}
+
+
+// searches through the bst when the license is entered if found it returns the parking number at that spot 
+int searchbst(struct bst* head, int a)
+{
+  if((head->license)==a ||(head->license)==NULL)
+  {
+    
+    return head->parking_no;
+  }
+
+  if((head->license)>a)
+  {
+    return searchbst(head->left,a);
+  }
+
+  if((head->license)<a)
+  {
+    return searchbst(head->right,a);
+  }
+  
+}
+
+
+int main()
+{ 
+  struct ll* head = (struct ll*)malloc(sizeof(struct ll));
+  head = linkedlistsetup();
+  struct ll *k;
+  k = head;
+  int size = 0;
+ 
+
+  //int *arry = empty_spots(head);
+  struct ll* arry = taken_spots(head);
+  //Display(arry,sizee);
+  struct ll* p = selectionLinked(arry);
+  struct bst* q = sortedListToBST(p);
+  //infix(q);
+  //preOrder(q);
+  while(p!=NULL)
+  {
+  //printf("%d\n",p->license);
+  //printf("%d\n",p->parking_no);
+  size++;
+  p = p -> next;
+  }
+  //printf("%d\n ", arry[37]);
+  //printf("%d\n ", sizee);
+  printf("%d\n",size);
+  //int f = searchbst(q,1038);
+  //printf("%d\n",f);
+  struct bst* l = insert(q,9999,66);
+  struct bst* u = delete_node(l,3794);
+  //infix(u);
+  return 0;
+ 
+  
+}
