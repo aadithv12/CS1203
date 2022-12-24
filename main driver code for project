@@ -1,0 +1,32 @@
+
+int main()
+{ 
+  struct ll* head = (struct ll*)malloc(sizeof(struct ll));
+  head = linkedlistsetup();
+  struct ll *k;
+  k = head;
+  int size = 0;
+ 
+
+  //int *arry = empty_spots(head);
+  struct ll* arry = taken_spots(head);
+  //Display(arry,sizee);
+  struct ll* p = selectionLinked(arry);
+  struct bst* q = sortedListToBST(p);
+  infix(q);
+  //preOrder(q);
+  while(p!=NULL)
+  {
+  //printf("%d\n",p->license);
+  //printf("%d\n",p->parking_no);
+  size++;
+  p = p -> next;
+  }
+  //printf("%d\n ", arry[37]);
+  //printf("%d\n ", sizee);
+  printf("%d\n",size);
+ 
+  return 0;
+ 
+  
+}
