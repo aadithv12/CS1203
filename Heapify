@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-void switc(int *a,int *b)
+
+
+
+void sw(int* a,int* b)
 {
     int x = *a;
     *a = *b;
     *b = x;
   
 }
-
 //heapify - making a max heap
 
-void heapify( int a[], int x, int y)
+void heapify( int *a, int x, int y)
 {
     int large = y;
 
@@ -30,24 +32,45 @@ void heapify( int a[], int x, int y)
 
     if(large != y)
     {
-        switc(a[y],a[large])
+    sw(&a[y],&a[large]);
+    
+    heapify(a,x,large);
     }
-
-    heapify(a,x,large)
-
 }
+
+void heapsort(int arr[], int N)
+{
+    int i = N/2 -1;
+	
+	while(i >= 0)
+    {
+		heapify(arr, N, i);
+		i--;
+    }
+	int k = N-1;
+	while(k >= 0) {
+
+		sw(&arr[0], &arr[k]);
+
+	
+		heapify(arr, k, 0);
+		k--;
+	}
+}
+
 
 
 int main()
 {
 int a[]= { 88, 99, 4, 42, 11, 35, 57, 3, 49, 69, 73, 20};
 int n = sizeof(a)/sizeof(a[0]);
-heapify(a,n,0);
+heapsort(a,n);
  int p=0; 
-    while(p!=n)
-    {
-        printf("%d\n",a[p]);
-        p++;
-    }
+ while(p<n)
+ {
+     printf("%d",a[p]);
+     printf("\n");
+     p++;
+ }
  return 0;
 }
